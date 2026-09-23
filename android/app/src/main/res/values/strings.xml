@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Default locale: Arabic (primary market) -->
+<resources>
+    <string name="app_name">مدربك الخاص</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_food">الغذاء</string>
+    <string name="nav_progress">التقدم</string>
+    <string name="nav_coach">المدرب</string>
+    <string name="nav_account">الحساب</string>
+
+    <!-- Auth -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="register">إنشاء حساب</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="auth_error">فشل تسجيل الدخول. تحقق من البيانات.</string>
+    <string name="no_account_register">ليس لديك حساب؟ أنشئ حساباً</string>
+    <string name="have_account_login">لديك حساب؟ سجل الدخول</string>
+
+    <!-- Home -->
+    <string name="your_day">يومك</string>
+    <string name="coach_says">مدربك يقول…</string>
+    <string name="calories_target">الهدف</string>
+    <string name="calories_consumed">المستهلك</string>
+    <string name="calories_remaining">المتبقي</string>
+    <string name="protein">بروتين</string>
+    <string name="carbs">كربوهيدرات</string>
+    <string name="fat">دهون</string>
+    <string name="kcal_unit">سعرة</string>
+    <string name="gram_unit">غ</string>
+    <string name="morning_weight">وزن الصباح</string>
+    <string name="no_morning_weight">لم تسجل وزنك اليوم</string>
+    <string name="action_what_to_eat">ماذا آكل الآن؟</string>
+    <string name="action_photo_meal">صوّر وجبة</string>
+    <string name="action_ask_coach">اسأل مدربك</string>
+    <string name="action_log_weight">سجل وزنك</string>
+    <string name="save_my_day">إنقاذ اليوم</string>
+
+    <!-- Onboarding / profile -->
+    <string name="onboarding_title">لنتعرف عليك</string>
+    <string name="age">العمر</string>
+    <string name="sex">الجنس</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
+    <string name="height_cm">الطول (سم)</string>
+    <string name="weight_kg">الوزن (كغ)</string>
+    <string name="sport">الرياضة</string>
+    <string name="sport_bodybuilding">كمال أجسام</string>
+    <string name="sport_strength">قوة / حديد</string>
+    <string name="sport_calisthenics">كاليسثينكس</string>
+    <string name="sport_running">جري</string>
+    <string name="sport_football">كرة قدم</string>
+    <string name="sport_non_athlete">غير رياضي</string>
+    <string name="goal">الهدف</string>
+    <string name="goal_lose_weight">خسارة وزن</string>
+    <string name="goal_lose_fat">خسارة دهون</string>
+    <string name="goal_maintain">المحافظة على الوزن</string>
+    <string name="goal_gain_weight">زيادة وزن</string>
+    <string name="goal_gain_muscle">بناء عضلات</string>
+    <string name="goal_recomposition">إعادة تشكيل الجسم</string>
+    <string name="goal_increase_strength">زيادة القوة</string>
+    <string name="goal_athletic_performance">تحسين الأداء الرياضي</string>
+    <string name="goal_running_performance">تحسين أداء الجري</string>
+    <string name="goal_calisthenics_performance">تحسين أداء الكاليسثينكس</string>
+    <string name="activity_level">النشاط اليومي (خارج التمرين)</string>
+    <string name="activity_sedentary">خامل</string>
+    <string name="activity_light">خفيف</string>
+    <string name="activity_moderate">متوسط</string>
+    <string name="activity_high">عالي</string>
+    <string name="training_days">أيام التمرين أسبوعياً</string>
+    <string name="training_duration">مدة التمرين (دقيقة)</string>
+    <string name="training_intensity">شدة التمرين</string>
+    <string name="intensity_low">منخفضة</string>
+    <string name="intensity_moderate">متوسطة</string>
+    <string name="intensity_high">عالية</string>
+    <string name="matches_per_week">مباريات أسبوعياً</string>
+    <string name="budget">الميزانية</string>
+    <string name="budget_low">اقتصادية</string>
+    <string name="budget_medium">متوسطة</string>
+    <string name="budget_high">مرتفعة</string>
+    <string name="continue_btn">متابعة</string>
+    <string name="save">حفظ</string>
+    <string name="finish">إنهاء</string>
+
+    <!-- Food -->
+    <string name="log_meal">تسجيل وجبة</string>
+    <string name="meal_breakfast">فطور</string>
+    <string name="meal_lunch">غداء</string>
+    <string name="meal_dinner">عشاء</string>
+    <string name="meal_snack">وجبة خفيفة</string>
+    <string name="search_food">ابحث عن طعام…</string>
+    <string name="quantity_g">الكمية (غرام)</string>
+    <string name="add_item">إضافة</string>
+    <string name="confirm_meal">تأكيد الوجبة</string>
+    <string name="todays_meals">وجبات اليوم</string>
+    <string name="no_meals_yet">لم تسجل وجبات بعد</string>
+    <string name="photo_analyzing">جاري تحليل الصورة…</string>
+    <string name="photo_estimate_note">القيم تقديرية — عدّل الكميات قبل التأكيد</string>
+    <string name="unmatched_food">غير موجود في قاعدة الأطعمة — اختر بديلاً</string>
+    <string name="ingredients_title">عندي هذه المكونات</string>
+    <string name="ingredients_hint">مثال: دجاج، رز، بيض، لبن</string>
+    <string name="suggest_meals">اقترح وجبات</string>
+
+    <!-- Progress -->
+    <string name="log_weight_title">تسجيل الوزن</string>
+    <string name="is_morning_weight">وزن الصباح (قبل الأكل والشرب)</string>
+    <string name="morning_weight_tip">الأفضل: استيقظ ← الحمام ← الوزن ← قبل الأكل والشرب</string>
+    <string name="weekly_average">المعدل الأسبوعي</string>
+    <string name="weight_trend">اتجاه الوزن</string>
+    <string name="weekly_review">مراجعة الأسبوع</string>
+    <string name="generate_review">إنشاء المراجعة</string>
+    <string name="went_well">ما سار جيداً</string>
+    <string name="needs_attention">يحتاج انتباه</string>
+    <string name="suggestions">اقتراحات</string>
+    <string name="body_fat_estimate">تقدير نسبة الدهون</string>
+    <string name="body_fat_disclaimer">هذا تقدير حسابي وليس قياساً طبياً</string>
+    <string name="waist_cm">محيط الخصر (سم)</string>
+    <string name="neck_cm">محيط الرقبة (سم)</string>
+    <string name="hip_cm">محيط الورك (سم)</string>
+    <string name="estimate">احسب التقدير</string>
+
+    <!-- Coach -->
+    <string name="coach_title">مدربك</string>
+    <string name="type_message">اكتب رسالتك…</string>
+    <string name="send">إرسال</string>
+    <string name="coach_disclaimer">المدرب الذكي ليس بديلاً عن الاستشارة الطبية</string>
+
+    <!-- Account -->
+    <string name="account_title">الحساب</string>
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="language">اللغة</string>
+    <string name="subscription">الاشتراك</string>
+    <string name="subscription_trial">فترة تجريبية حتى %1$s</string>
+    <string name="subscription_active">اشتراك فعال</string>
+    <string name="subscription_expired">انتهى الاشتراك</string>
+    <string name="subscription_price">4.99$ شهرياً بعد 14 يوم تجربة مجانية</string>
+    <string name="notifications">التنبيهات</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="delete_data">حذف بياناتي</string>
+    <string name="delete_confirm">هل أنت متأكد؟ لا يمكن التراجع.</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="cancel">إلغاء</string>
+    <string name="confirm">تأكيد</string>
+
+    <!-- Errors -->
+    <string name="error_no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="error_generic">حدث خطأ. حاول مرة أخرى.</string>
+    <string name="error_ai_unavailable">المدرب الذكي غير متاح حالياً. حاول لاحقاً.</string>
+    <string name="error_limit_reached">وصلت للحد اليومي. حاول غداً.</string>
+    <string name="error_invalid_input">قيمة غير صالحة</string>
+    <string name="error_subscription_expired">انتهت فترة الاشتراك — جدد للمتابعة</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_reminders">التذكيرات</string>
+    <string name="notif_morning_weight">حان وقت تسجيل وزن الصباح ⚖️</string>
+    <string name="notif_weekly_review">مراجعتك الأسبوعية جاهزة 📊</string>
+
+    <string name="loading">جاري التحميل…</string>
+</resources>

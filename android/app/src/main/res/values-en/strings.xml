@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Your Personal Coach</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_food">Food</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_coach">Coach</string>
+    <string name="nav_account">Account</string>
+
+    <string name="login">Log in</string>
+    <string name="register">Create account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="auth_error">Login failed. Check your details.</string>
+    <string name="no_account_register">No account? Create one</string>
+    <string name="have_account_login">Have an account? Log in</string>
+
+    <string name="your_day">Your Day</string>
+    <string name="coach_says">Your coach says…</string>
+    <string name="calories_target">Target</string>
+    <string name="calories_consumed">Consumed</string>
+    <string name="calories_remaining">Remaining</string>
+    <string name="protein">Protein</string>
+    <string name="carbs">Carbs</string>
+    <string name="fat">Fat</string>
+    <string name="kcal_unit">kcal</string>
+    <string name="gram_unit">g</string>
+    <string name="morning_weight">Morning weight</string>
+    <string name="no_morning_weight">No weight logged today</string>
+    <string name="action_what_to_eat">What should I eat now?</string>
+    <string name="action_photo_meal">Photo a meal</string>
+    <string name="action_ask_coach">Ask your coach</string>
+    <string name="action_log_weight">Log your weight</string>
+    <string name="save_my_day">Save my day</string>
+
+    <string name="onboarding_title">Let\'s get to know you</string>
+    <string name="age">Age</string>
+    <string name="sex">Sex</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="sport">Sport</string>
+    <string name="sport_bodybuilding">Bodybuilding</string>
+    <string name="sport_strength">Strength training</string>
+    <string name="sport_calisthenics">Calisthenics</string>
+    <string name="sport_running">Running</string>
+    <string name="sport_football">Football</string>
+    <string name="sport_non_athlete">Non-athlete</string>
+    <string name="goal">Goal</string>
+    <string name="goal_lose_weight">Lose weight</string>
+    <string name="goal_lose_fat">Lose body fat</string>
+    <string name="goal_maintain">Maintain weight</string>
+    <string name="goal_gain_weight">Gain weight</string>
+    <string name="goal_gain_muscle">Gain muscle</string>
+    <string name="goal_recomposition">Body recomposition</string>
+    <string name="goal_increase_strength">Increase strength</string>
+    <string name="goal_athletic_performance">Athletic performance</string>
+    <string name="goal_running_performance">Running performance</string>
+    <string name="goal_calisthenics_performance">Calisthenics performance</string>
+    <string name="activity_level">Daily activity (outside training)</string>
+    <string name="activity_sedentary">Sedentary</string>
+    <string name="activity_light">Light</string>
+    <string name="activity_moderate">Moderate</string>
+    <string name="activity_high">High</string>
+    <string name="training_days">Training days per week</string>
+    <string name="training_duration">Training duration (min)</string>
+    <string name="training_intensity">Training intensity</string>
+    <string name="intensity_low">Low</string>
+    <string name="intensity_moderate">Moderate</string>
+    <string name="intensity_high">High</string>
+    <string name="matches_per_week">Matches per week</string>
+    <string name="budget">Budget</string>
+    <string name="budget_low">Low</string>
+    <string name="budget_medium">Medium</string>
+    <string name="budget_high">High</string>
+    <string name="continue_btn">Continue</string>
+    <string name="save">Save</string>
+    <string name="finish">Finish</string>
+
+    <string name="log_meal">Log a meal</string>
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_snack">Snack</string>
+    <string name="search_food">Search foods…</string>
+    <string name="quantity_g">Quantity (grams)</string>
+    <string name="add_item">Add</string>
+    <string name="confirm_meal">Confirm meal</string>
+    <string name="todays_meals">Today\'s meals</string>
+    <string name="no_meals_yet">No meals logged yet</string>
+    <string name="photo_analyzing">Analyzing photo…</string>
+    <string name="photo_estimate_note">Values are estimates — adjust quantities before confirming</string>
+    <string name="unmatched_food">Not in food database — pick an alternative</string>
+    <string name="ingredients_title">I have these ingredients</string>
+    <string name="ingredients_hint">e.g. chicken, rice, eggs, yogurt</string>
+    <string name="suggest_meals">Suggest meals</string>
+
+    <string name="log_weight_title">Log weight</string>
+    <string name="is_morning_weight">Morning weight (before food/drink)</string>
+    <string name="morning_weight_tip">Best: wake up → bathroom → weigh → before food/drink</string>
+    <string name="weekly_average">Weekly average</string>
+    <string name="weight_trend">Weight trend</string>
+    <string name="weekly_review">Weekly review</string>
+    <string name="generate_review">Generate review</string>
+    <string name="went_well">What went well</string>
+    <string name="needs_attention">Needs attention</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="body_fat_estimate">Body-fat estimate</string>
+    <string name="body_fat_disclaimer">This is a computed estimate, not a medical measurement</string>
+    <string name="waist_cm">Waist (cm)</string>
+    <string name="neck_cm">Neck (cm)</string>
+    <string name="hip_cm">Hip (cm)</string>
+    <string name="estimate">Estimate</string>
+
+    <string name="coach_title">Your Coach</string>
+    <string name="type_message">Type a message…</string>
+    <string name="send">Send</string>
+    <string name="coach_disclaimer">The AI coach is not a substitute for medical advice</string>
+
+    <string name="account_title">Account</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="language">Language</string>
+    <string name="subscription">Subscription</string>
+    <string name="subscription_trial">Free trial until %1$s</string>
+    <string name="subscription_active">Active subscription</string>
+    <string name="subscription_expired">Subscription expired</string>
+    <string name="subscription_price">$4.99/month after 14-day free trial</string>
+    <string name="notifications">Notifications</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_data">Delete my data</string>
+    <string name="delete_confirm">Are you sure? This cannot be undone.</string>
+    <string name="logout">Log out</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="error_no_internet">No internet connection</string>
+    <string name="error_generic">Something went wrong. Try again.</string>
+    <string name="error_ai_unavailable">The AI coach is unavailable right now. Try later.</string>
+    <string name="error_limit_reached">Daily limit reached. Try tomorrow.</string>
+    <string name="error_invalid_input">Invalid value</string>
+    <string name="error_subscription_expired">Subscription expired — renew to continue</string>
+
+    <string name="notif_channel_reminders">Reminders</string>
+    <string name="notif_morning_weight">Time to log your morning weight ⚖️</string>
+    <string name="notif_weekly_review">Your weekly review is ready 📊</string>
+
+    <string name="loading">Loading…</string>
+</resources>

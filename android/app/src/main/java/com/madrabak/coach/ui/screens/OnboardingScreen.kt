@@ -1,0 +1,189 @@
+package com.madrabak.coach.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.madrabak.coach.R
+import com.madrabak.coach.data.api.ProfileUpdate
+import com.madrabak.coach.data.repo.ApiProvider
+import com.madrabak.coach.data.repo.safeCall
+import com.madrabak.coach.util.ProfileValidator
+import kotlinx.coroutines.launch
+
+@Composable
+private fun ChipRow(options: List<Pair<String, String>>, selected: String?, onSelect: (String) -> Unit) {
+    Column {
+        options.chunked(3).forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                row.forEach { (value, label) ->
+                    FilterChip(selected = selected == value, onClick = { onSelect(value) }, label = { Text(label) })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun OnboardingScreen(onDone: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    var age by remember { mutableStateOf("") }
+    var sex by remember { mutableStateOf<String?>(null) }
+    var height by remember { mutableStateOf("") }
+    var weight by remember { mutableStateOf("") }
+    var sport by remember { mutableStateOf<String?>(null) }
+    var goal by remember { mutableStateOf<String?>(null) }
+    var activity by remember { mutableStateOf<String?>(null) }
+    var trainingDays by remember { mutableStateOf("3") }
+    var trainingMin by remember { mutableStateOf("60") }
+    var intensity by remember { mutableStateOf("moderate") }
+    var matches by remember { mutableStateOf("0") }
+    var budget by remember { mutableStateOf("medium") }
+    var saving by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf(false) }
+
+    val sports = listOf(
+        "bodybuilding" to stringResource(R.string.sport_bodybuilding),
+        "strength" to stringResource(R.string.sport_strength),
+        "calisthenics" to stringResource(R.string.sport_calisthenics),
+        "running" to stringResource(R.string.sport_running),
+        "football" to stringResource(R.string.sport_football),
+        "non_athlete" to stringResource(R.string.sport_non_athlete),
+    )
+    val goals = listOf(
+        "lose_weight" to stringResource(R.string.goal_lose_weight),
+        "lose_fat" to stringResource(R.string.goal_lose_fat),
+        "maintain" to stringResource(R.string.goal_maintain),
+        "gain_weight" to stringResource(R.string.goal_gain_weight),
+        "gain_muscle" to stringResource(R.string.goal_gain_muscle),
+        "recomposition" to stringResource(R.string.goal_recomposition),
+        "increase_strength" to stringResource(R.string.goal_increase_strength),
+        "athletic_performance" to stringResource(R.string.goal_athletic_performance),
+        "running_performance" to stringResource(R.string.goal_running_performance),
+        "calisthenics_performance" to stringResource(R.string.goal_calisthenics_performance),
+    )
+    val activities = listOf(
+        "sedentary" to stringResource(R.string.activity_sedentary),
+        "light" to stringResource(R.string.activity_light),
+        "moderate" to stringResource(R.string.activity_moderate),
+        "high" to stringResource(R.string.activity_high),
+    )
+
+    val valid = ProfileValidator.isValid(
+        age.toIntOrNull(), sex, height.toDoubleOrNull(), weight.toDoubleOrNull(), sport, goal, activity,
+    )
+
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        Text(stringResource(R.string.onboarding_title), style = MaterialTheme.typography.headlineMedium)
+
+        Row {
+            OutlinedTextField(value = age, onValueChange = { age = it.filter(Char::isDigit) },
+                label = { Text(stringResource(R.string.age)) }, modifier = Modifier.weight(1f))
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(2f)) {
+                Text(stringResource(R.string.sex), style = MaterialTheme.typography.labelLarge)
+                ChipRow(listOf("male" to stringResource(R.string.male), "female" to stringResource(R.string.female)), sex) { sex = it }
+            }
+        }
+        Row {
+            OutlinedTextField(value = height, onValueChange = { height = it },
+                label = { Text(stringResource(R.string.height_cm)) }, modifier = Modifier.weight(1f))
+            Spacer(Modifier.width(12.dp))
+            OutlinedTextField(value = weight, onValueChange = { weight = it },
+                label = { Text(stringResource(R.string.weight_kg)) }, modifier = Modifier.weight(1f))
+        }
+
+        Text(stringResource(R.string.sport), style = MaterialTheme.typography.titleLarge)
+        ChipRow(sports, sport) { sport = it }
+
+        Text(stringResource(R.string.goal), style = MaterialTheme.typography.titleLarge)
+        ChipRow(goals, goal) { goal = it }
+
+        Text(stringResource(R.string.activity_level), style = MaterialTheme.typography.titleLarge)
+        ChipRow(activities, activity) { activity = it }
+
+        Row {
+            OutlinedTextField(value = trainingDays, onValueChange = { trainingDays = it.filter(Char::isDigit) },
+                label = { Text(stringResource(R.string.training_days)) }, modifier = Modifier.weight(1f))
+            Spacer(Modifier.width(12.dp))
+            OutlinedTextField(value = trainingMin, onValueChange = { trainingMin = it.filter(Char::isDigit) },
+                label = { Text(stringResource(R.string.training_duration)) }, modifier = Modifier.weight(1f))
+        }
+
+        Text(stringResource(R.string.training_intensity), style = MaterialTheme.typography.labelLarge)
+        ChipRow(listOf(
+            "low" to stringResource(R.string.intensity_low),
+            "moderate" to stringResource(R.string.intensity_moderate),
+            "high" to stringResource(R.string.intensity_high),
+        ), intensity) { intensity = it }
+
+        if (sport == "football") {
+            OutlinedTextField(value = matches, onValueChange = { matches = it.filter(Char::isDigit) },
+                label = { Text(stringResource(R.string.matches_per_week)) }, modifier = Modifier.fillMaxWidth())
+        }
+
+        Text(stringResource(R.string.budget), style = MaterialTheme.typography.labelLarge)
+        ChipRow(listOf(
+            "low" to stringResource(R.string.budget_low),
+            "medium" to stringResource(R.string.budget_medium),
+            "high" to stringResource(R.string.budget_high),
+        ), budget) { budget = it }
+
+        if (error) Text(stringResource(R.string.error_generic), color = MaterialTheme.colorScheme.error)
+
+        Button(
+            onClick = {
+                saving = true; error = false
+                scope.launch {
+                    val api = ApiProvider.init(context)
+                    val result = safeCall {
+                        api.updateProfile(ProfileUpdate(
+                            age = age.toInt(), sex = sex, heightCm = height.toDouble(),
+                            weightKg = weight.toDouble(), sport = sport, primaryGoal = goal,
+                            activityLevel = activity,
+                            trainingDaysPerWeek = trainingDays.toIntOrNull() ?: 0,
+                            trainingDurationMin = trainingMin.toIntOrNull() ?: 0,
+                            trainingIntensity = intensity,
+                            matchesPerWeek = matches.toIntOrNull() ?: 0,
+                            budgetTier = budget,
+                            onboardingCompleted = true,
+                        ))
+                        api.recalculateTarget()
+                    }
+                    saving = false
+                    result.onSuccess { onDone() }.onFailure { error = true }
+                }
+            },
+            enabled = valid && !saving,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+        ) { Text(stringResource(R.string.finish)) }
+        Spacer(Modifier.height(24.dp))
+    }
+}

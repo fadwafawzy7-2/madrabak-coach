@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hebrew (resource qualifier 'iw' per Android legacy code) -->
+<resources>
+    <string name="app_name">המאמן האישי שלך</string>
+
+    <string name="nav_home">בית</string>
+    <string name="nav_food">תזונה</string>
+    <string name="nav_progress">התקדמות</string>
+    <string name="nav_coach">מאמן</string>
+    <string name="nav_account">חשבון</string>
+
+    <string name="login">התחברות</string>
+    <string name="register">יצירת חשבון</string>
+    <string name="email">אימייל</string>
+    <string name="password">סיסמה</string>
+    <string name="auth_error">ההתחברות נכשלה. בדוק את הפרטים.</string>
+    <string name="no_account_register">אין חשבון? צור אחד</string>
+    <string name="have_account_login">יש חשבון? התחבר</string>
+
+    <string name="your_day">היום שלך</string>
+    <string name="coach_says">המאמן שלך אומר…</string>
+    <string name="calories_target">יעד</string>
+    <string name="calories_consumed">נצרך</string>
+    <string name="calories_remaining">נותר</string>
+    <string name="protein">חלבון</string>
+    <string name="carbs">פחמימות</string>
+    <string name="fat">שומן</string>
+    <string name="kcal_unit">קק״ל</string>
+    <string name="gram_unit">ג</string>
+    <string name="morning_weight">משקל בוקר</string>
+    <string name="no_morning_weight">לא נרשם משקל היום</string>
+    <string name="action_what_to_eat">מה לאכול עכשיו?</string>
+    <string name="action_photo_meal">צלם ארוחה</string>
+    <string name="action_ask_coach">שאל את המאמן</string>
+    <string name="action_log_weight">רשום משקל</string>
+    <string name="save_my_day">להציל את היום</string>
+
+    <string name="onboarding_title">בוא נכיר אותך</string>
+    <string name="age">גיל</string>
+    <string name="sex">מין</string>
+    <string name="male">זכר</string>
+    <string name="female">נקבה</string>
+    <string name="height_cm">גובה (ס״מ)</string>
+    <string name="weight_kg">משקל (ק״ג)</string>
+    <string name="sport">ספורט</string>
+    <string name="sport_bodybuilding">פיתוח גוף</string>
+    <string name="sport_strength">אימוני כוח</string>
+    <string name="sport_calisthenics">קליסתניקס</string>
+    <string name="sport_running">ריצה</string>
+    <string name="sport_football">כדורגל</string>
+    <string name="sport_non_athlete">לא ספורטאי</string>
+    <string name="goal">מטרה</string>
+    <string name="goal_lose_weight">ירידה במשקל</string>
+    <string name="goal_lose_fat">ירידה באחוזי שומן</string>
+    <string name="goal_maintain">שמירה על משקל</string>
+    <string name="goal_gain_weight">עלייה במשקל</string>
+    <string name="goal_gain_muscle">בניית שריר</string>
+    <string name="goal_recomposition">עיצוב מחדש של הגוף</string>
+    <string name="goal_increase_strength">הגדלת כוח</string>
+    <string name="goal_athletic_performance">שיפור ביצועים</string>
+    <string name="goal_running_performance">שיפור ביצועי ריצה</string>
+    <string name="goal_calisthenics_performance">שיפור ביצועי קליסתניקס</string>
+    <string name="activity_level">פעילות יומית (מחוץ לאימון)</string>
+    <string name="activity_sedentary">יושבני</string>
+    <string name="activity_light">קלה</string>
+    <string name="activity_moderate">בינונית</string>
+    <string name="activity_high">גבוהה</string>
+    <string name="training_days">ימי אימון בשבוע</string>
+    <string name="training_duration">משך אימון (דקות)</string>
+    <string name="training_intensity">עצימות אימון</string>
+    <string name="intensity_low">נמוכה</string>
+    <string name="intensity_moderate">בינונית</string>
+    <string name="intensity_high">גבוהה</string>
+    <string name="matches_per_week">משחקים בשבוע</string>
+    <string name="budget">תקציב</string>
+    <string name="budget_low">נמוך</string>
+    <string name="budget_medium">בינוני</string>
+    <string name="budget_high">גבוה</string>
+    <string name="continue_btn">המשך</string>
+    <string name="save">שמור</string>
+    <string name="finish">סיום</string>
+
+    <string name="log_meal">רישום ארוחה</string>
+    <string name="meal_breakfast">ארוחת בוקר</string>
+    <string name="meal_lunch">ארוחת צהריים</string>
+    <string name="meal_dinner">ארוחת ערב</string>
+    <string name="meal_snack">חטיף</string>
+    <string name="search_food">חפש מזון…</string>
+    <string name="quantity_g">כמות (גרם)</string>
+    <string name="add_item">הוסף</string>
+    <string name="confirm_meal">אשר ארוחה</string>
+    <string name="todays_meals">ארוחות היום</string>
+    <string name="no_meals_yet">עוד לא נרשמו ארוחות</string>
+    <string name="photo_analyzing">מנתח תמונה…</string>
+    <string name="photo_estimate_note">הערכים משוערים — התאם כמויות לפני אישור</string>
+    <string name="unmatched_food">לא במאגר המזון — בחר חלופה</string>
+    <string name="ingredients_title">יש לי את המרכיבים האלה</string>
+    <string name="ingredients_hint">לדוגמה: עוף, אורז, ביצים, יוגורט</string>
+    <string name="suggest_meals">הצע ארוחות</string>
+
+    <string name="log_weight_title">רישום משקל</string>
+    <string name="is_morning_weight">משקל בוקר (לפני אוכל/שתייה)</string>
+    <string name="morning_weight_tip">מומלץ: להתעורר ← שירותים ← שקילה ← לפני אוכל ושתייה</string>
+    <string name="weekly_average">ממוצע שבועי</string>
+    <string name="weight_trend">מגמת משקל</string>
+    <string name="weekly_review">סקירה שבועית</string>
+    <string name="generate_review">צור סקירה</string>
+    <string name="went_well">מה הלך טוב</string>
+    <string name="needs_attention">דורש תשומת לב</string>
+    <string name="suggestions">הצעות</string>
+    <string name="body_fat_estimate">הערכת אחוזי שומן</string>
+    <string name="body_fat_disclaimer">זו הערכה מחושבת, לא מדידה רפואית</string>
+    <string name="waist_cm">היקף מותניים (ס״מ)</string>
+    <string name="neck_cm">היקף צוואר (ס״מ)</string>
+    <string name="hip_cm">היקף ירכיים (ס״מ)</string>
+    <string name="estimate">חשב הערכה</string>
+
+    <string name="coach_title">המאמן שלך</string>
+    <string name="type_message">כתוב הודעה…</string>
+    <string name="send">שלח</string>
+    <string name="coach_disclaimer">המאמן החכם אינו תחליף לייעוץ רפואי</string>
+
+    <string name="account_title">חשבון</string>
+    <string name="edit_profile">עריכת פרופיל</string>
+    <string name="language">שפה</string>
+    <string name="subscription">מנוי</string>
+    <string name="subscription_trial">תקופת ניסיון עד %1$s</string>
+    <string name="subscription_active">מנוי פעיל</string>
+    <string name="subscription_expired">המנוי פג</string>
+    <string name="subscription_price">4.99$ לחודש אחרי 14 ימי ניסיון חינם</string>
+    <string name="notifications">התראות</string>
+    <string name="delete_account">מחיקת חשבון</string>
+    <string name="delete_data">מחיקת הנתונים שלי</string>
+    <string name="delete_confirm">בטוח? אי אפשר לבטל.</string>
+    <string name="logout">התנתקות</string>
+    <string name="cancel">ביטול</string>
+    <string name="confirm">אישור</string>
+
+    <string name="error_no_internet">אין חיבור לאינטרנט</string>
+    <string name="error_generic">משהו השתבש. נסה שוב.</string>
+    <string name="error_ai_unavailable">המאמן החכם לא זמין כרגע. נסה מאוחר יותר.</string>
+    <string name="error_limit_reached">הגעת למגבלה היומית. נסה מחר.</string>
+    <string name="error_invalid_input">ערך לא תקין</string>
+    <string name="error_subscription_expired">המנוי פג — חדש כדי להמשיך</string>
+
+    <string name="notif_channel_reminders">תזכורות</string>
+    <string name="notif_morning_weight">הגיע הזמן לרשום את משקל הבוקר ⚖️</string>
+    <string name="notif_weekly_review">הסקירה השבועית שלך מוכנה 📊</string>
+
+    <string name="loading">טוען…</string>
+</resources>

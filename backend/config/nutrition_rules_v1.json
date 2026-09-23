@@ -1,0 +1,56 @@
+{
+  "version": "nutrition-rules-1.0.0",
+  "comment": "PROVISIONAL configurable values for MVP. Ranges are conventional sports-nutrition practice, not medical prescriptions. Review with a qualified professional before production.",
+  "activity_factors": {
+    "sedentary": 1.2,
+    "light": 1.375,
+    "moderate": 1.55,
+    "high": 1.725
+  },
+  "training_session_kcal_per_min": {
+    "comment": "Provisional per-minute training energy additions by intensity, added on top of daily-activity TDEE for training sessions to avoid double counting (daily activity factor here reflects NON-training activity).",
+    "low": 4.0,
+    "moderate": 6.0,
+    "high": 8.0
+  },
+  "match_kcal": {
+    "comment": "Provisional energy addition for a football match day (90 min match, includes warm-up).",
+    "football": 700
+  },
+  "goal_adjustment_kcal": {
+    "lose_weight": -500,
+    "lose_fat": -400,
+    "maintain": 0,
+    "gain_weight": 400,
+    "gain_muscle": 300,
+    "recomposition": -200,
+    "increase_strength": 150,
+    "athletic_performance": 0,
+    "running_performance": 0,
+    "calisthenics_performance": -100
+  },
+  "protein_g_per_kg": {
+    "comment": "Provisional protein targets per kg body weight by sport and goal-direction.",
+    "bodybuilding": { "deficit": 2.2, "maintenance": 2.0, "surplus": 1.8 },
+    "strength": { "deficit": 2.0, "maintenance": 1.8, "surplus": 1.7 },
+    "calisthenics": { "deficit": 2.0, "maintenance": 1.8, "surplus": 1.7 },
+    "running": { "deficit": 1.8, "maintenance": 1.6, "surplus": 1.5 },
+    "football": { "deficit": 1.9, "maintenance": 1.7, "surplus": 1.6 },
+    "non_athlete": { "deficit": 1.6, "maintenance": 1.2, "surplus": 1.2 }
+  },
+  "fat_g_per_kg_min": 0.6,
+  "fat_pct_of_calories_default": 0.25,
+  "carb_g_per_kg_min": {
+    "comment": "Provisional minimum carbs for endurance sports on training/match days.",
+    "running": 3.0,
+    "football": 3.0,
+    "default": 0
+  },
+  "deficit_limit_kcal": 750,
+  "surplus_limit_kcal": 500,
+  "min_calories": {
+    "male": 1500,
+    "female": 1200
+  },
+  "kcal_per_g": { "protein": 4, "carbs": 4, "fat": 9 }
+}

@@ -1,0 +1,45 @@
+{
+  "version": "safety-rules-1.0.0",
+  "comment": "PROVISIONAL configurable safety rules for MVP.",
+  "min_age": 13,
+  "young_user_age_threshold": 18,
+  "young_user_policy": {
+    "comment": "Users under the threshold get conservative behavior: no aggressive deficit, cap deficit, always advise professional guidance.",
+    "max_deficit_kcal": 250,
+    "block_goals": ["lose_weight", "lose_fat"],
+    "replace_blocked_goal_with": "maintain"
+  },
+  "measurement_bounds": {
+    "age": { "min": 13, "max": 100 },
+    "height_cm": { "min": 100, "max": 250 },
+    "weight_kg": { "min": 30, "max": 300 },
+    "waist_cm": { "min": 40, "max": 200 },
+    "neck_cm": { "min": 20, "max": 80 },
+    "hip_cm": { "min": 50, "max": 200 },
+    "arm_cm": { "min": 15, "max": 70 }
+  },
+  "ai_limits": {
+    "coach_messages_per_day": 30,
+    "image_analyses_per_day": 10,
+    "max_output_tokens": 800,
+    "max_history_messages": 10
+  },
+  "blocked_intent_patterns": {
+    "comment": "Simple keyword pre-check patterns (per language). Matches trigger a safe scripted response, never AI.",
+    "eating_disorder": [
+      "starve", "starving myself", "purge", "vomit after eating", "laxative", "not eat for days",
+      "اتجويع", "أجوع نفسي", "تجويع", "استفراغ بعد الأكل", "ملينات", "ما آكل لأيام", "أتقيأ",
+      "להרעיב", "הקאה אחרי אוכל", "משלשלים"
+    ],
+    "medical": [
+      "diagnose", "prescription", "what medication", "insulin dose", "thyroid dose",
+      "شخصلي", "وصفة دواء", "جرعة الأنسولين", "جرعة دواء", "علاج طبي",
+      "אבחנה", "מרשם", "מינון תרופה"
+    ]
+  },
+  "ai_output_blocked_patterns": [
+    "skip all meals", "stop eating entirely", "you should fast for several days",
+    "لا تأكل شيئا", "توقف عن الأكل تماما", "صم عدة أيام كعقاب"
+  ],
+  "disclaimer_keys": ["not_medical_advice", "estimate_only"]
+}
