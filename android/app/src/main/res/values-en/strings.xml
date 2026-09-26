@@ -15,6 +15,9 @@
     <string name="auth_error">Login failed. Check your details.</string>
     <string name="no_account_register">No account? Create one</string>
     <string name="have_account_login">Have an account? Log in</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="or_divider">or</string>
+    <string name="google_signin_error">Couldn\'t sign in with Google. Please try again.</string>
 
     <string name="your_day">Your Day</string>
     <string name="coach_says">Your coach says…</string>
@@ -91,6 +94,7 @@
     <string name="todays_meals">Today\'s meals</string>
     <string name="no_meals_yet">No meals logged yet</string>
     <string name="photo_analyzing">Analyzing photo…</string>
+    <string name="error_camera_permission">Camera permission is needed to photograph a meal</string>
     <string name="photo_estimate_note">Values are estimates — adjust quantities before confirming</string>
     <string name="unmatched_food">Not in food database — pick an alternative</string>
     <string name="ingredients_title">I have these ingredients</string>
@@ -103,6 +107,19 @@
     <string name="weekly_average">Weekly average</string>
     <string name="weight_trend">Weight trend</string>
     <string name="weekly_review">Weekly review</string>
+    <string name="review_logging_consistency_good">Consistent meal logging this week 👏</string>
+    <string name="review_logging_consistency_bad">Meal logging was inconsistent this week</string>
+    <string name="review_no_logging">No meals were logged this week</string>
+    <string name="review_protein_intake_good">You hit your protein target well</string>
+    <string name="review_protein_intake_bad">Protein was below target this week</string>
+    <string name="review_weight_not_decreasing">Weight isn\'t dropping despite the deficit — targets may need a review</string>
+    <string name="review_weight_not_increasing">Weight isn\'t rising despite the surplus — targets may need a review</string>
+    <string name="review_weight_trend_on_track">Weight trend is on track 👍</string>
+    <string name="review_log_more_days">Try logging meals on more days next week</string>
+    <string name="review_start_logging">Start logging your daily meals to track progress</string>
+    <string name="review_increase_protein_foods">Add more protein sources to your meals</string>
+    <string name="review_targets_with_engine">Review your targets from the Account screen</string>
+    <string name="review_weigh_more_mornings">Try weighing yourself more mornings this week</string>
     <string name="generate_review">Generate review</string>
     <string name="went_well">What went well</string>
     <string name="needs_attention">Needs attention</string>
@@ -127,12 +144,14 @@
     <string name="subscription_active">Active subscription</string>
     <string name="subscription_expired">Subscription expired</string>
     <string name="subscription_price">$4.99/month after 14-day free trial</string>
+    <string name="subscribe_now">Subscribe now</string>
     <string name="notifications">Notifications</string>
     <string name="delete_account">Delete account</string>
     <string name="delete_data">Delete my data</string>
     <string name="delete_confirm">Are you sure? This cannot be undone.</string>
     <string name="logout">Log out</string>
     <string name="cancel">Cancel</string>
+    <string name="back">Back</string>
     <string name="confirm">Confirm</string>
 
     <string name="error_no_internet">No internet connection</string>

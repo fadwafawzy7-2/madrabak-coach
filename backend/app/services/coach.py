@@ -9,6 +9,7 @@ the context come from the Nutrition Engine and the Food Database.
 from __future__ import annotations
 
 import datetime as dt
+import logging
 
 from fastapi import HTTPException
 from sqlalchemy import text
@@ -19,6 +20,8 @@ from ..safety import guardrails
 from .meals import day_totals, list_meals_for_day
 from .nutrition import get_current_target, get_profile
 from .rules import get_safety_rules
+
+logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = {
     "ar": (
@@ -165,6 +168,7 @@ async def coach_chat(user_id: str, message: str, provider: AiChatProvider | None
         result = await provider.chat(system, history + [{"role": "user", "content": message}],
                                      max_tokens=limits["max_output_tokens"])
     except Exception:
+        logger.exception("coach_chat: AI provider call failed")
         raise HTTPException(status_code=503, detail={"code": "ai_unavailable"})
 
     log_ai_usage(user_id, result.provider, result.model, "coach_chat",

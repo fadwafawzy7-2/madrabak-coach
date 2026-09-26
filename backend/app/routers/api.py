@@ -20,7 +20,7 @@ from ..services import nutrition as nutrition_svc
 from ..services import progress as progress_svc
 from ..services import subscriptions as sub_svc
 from ..services import suggestions as sugg_svc
-from ..services.auth import get_current_user_id, login_user, register_user
+from ..services.auth import get_current_user_id, login_or_register_google, login_user, register_user
 from ..services.rules import get_safety_rules
 
 router = APIRouter()
@@ -43,6 +43,19 @@ def register(body: Credentials):
 @router.post("/auth/login")
 def login(body: Credentials):
     return login_user(body.email, body.password)
+
+
+class GoogleAuthIn(BaseModel):
+    id_token: str
+
+
+@router.post("/auth/google")
+def google_auth(body: GoogleAuthIn):
+    result = login_or_register_google(body.id_token)
+    if result.pop("is_new_user", False):
+        _track(result["user_id"], "user_registered", {"provider": "google"})
+        _track(result["user_id"], "trial_started", {})
+    return result
 
 
 # ------------------------------------------------------------------ profile
@@ -202,7 +215,7 @@ def delete_meal(meal_id: str, user_id: str = Depends(get_current_user_id)):
 
 @router.post("/meals/analyze-photo")
 async def analyze_photo(image: UploadFile = File(...), language: str = Form("ar"),
-                        user_id: str = Depends(get_current_user_id)):
+                        user_id: str = Depends(sub_svc.require_active_access)):
     """Photo → Vision AI → DB matching → DRAFT items. The user must edit/confirm
     before the meal is finalized via POST /meals. Quantities are estimates."""
     rules = get_safety_rules()
@@ -329,7 +342,7 @@ class ChatIn(BaseModel):
 
 
 @router.post("/coach/chat")
-async def chat(body: ChatIn, user_id: str = Depends(get_current_user_id)):
+async def chat(body: ChatIn, user_id: str = Depends(sub_svc.require_active_access)):
     result = await coach_svc.coach_chat(user_id, body.message)
     _track(user_id, "coach_used", {"blocked": result["blocked"]})
     return result
@@ -348,7 +361,7 @@ def coach_history(limit: int = 30, user_id: str = Depends(get_current_user_id)):
 
 
 @router.post("/coach/what-to-eat")
-async def what_to_eat(user_id: str = Depends(get_current_user_id)):
+async def what_to_eat(user_id: str = Depends(sub_svc.require_active_access)):
     result = await sugg_svc.what_should_i_eat(user_id)
     _track(user_id, "what_to_eat_used", {})
     return result
@@ -359,14 +372,14 @@ class IngredientsIn(BaseModel):
 
 
 @router.post("/coach/ingredients")
-async def ingredients(body: IngredientsIn, user_id: str = Depends(get_current_user_id)):
+async def ingredients(body: IngredientsIn, user_id: str = Depends(sub_svc.require_active_access)):
     result = await sugg_svc.ingredients_to_meals(user_id, body.ingredients)
     _track(user_id, "ingredients_used", {})
     return result
 
 
 @router.post("/coach/save-my-day")
-async def save_my_day(user_id: str = Depends(get_current_user_id)):
+async def save_my_day(user_id: str = Depends(sub_svc.require_active_access)):
     result = await sugg_svc.save_my_day(user_id)
     _track(user_id, "save_my_day_used", {})
     return result

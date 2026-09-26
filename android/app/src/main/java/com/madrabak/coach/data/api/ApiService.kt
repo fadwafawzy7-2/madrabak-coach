@@ -19,6 +19,9 @@ interface ApiService {
     @POST("auth/login")
     suspend fun login(@Body body: Credentials): AuthResponse
 
+    @POST("auth/google")
+    suspend fun googleAuth(@Body body: GoogleAuthIn): AuthResponse
+
     @GET("profile")
     suspend fun getProfile(): Profile
 

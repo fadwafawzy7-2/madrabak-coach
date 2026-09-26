@@ -3,6 +3,10 @@
 <resources>
     <string name="app_name">مدربك الخاص</string>
 
+    <!-- Google Sign-In Web Client ID (public, not a secret). Same value used
+         as the Backend's GOOGLE_WEB_CLIENT_ID env var. -->
+    <string name="google_web_client_id" translatable="false">943748951646-c0i7iupp8rdniidocshse8h67oh8m99m.apps.googleusercontent.com</string>
+
     <!-- Navigation -->
     <string name="nav_home">الرئيسية</string>
     <string name="nav_food">الغذاء</string>
@@ -18,6 +22,9 @@
     <string name="auth_error">فشل تسجيل الدخول. تحقق من البيانات.</string>
     <string name="no_account_register">ليس لديك حساب؟ أنشئ حساباً</string>
     <string name="have_account_login">لديك حساب؟ سجل الدخول</string>
+    <string name="continue_with_google">المتابعة عبر Google</string>
+    <string name="or_divider">أو</string>
+    <string name="google_signin_error">تعذر تسجيل الدخول عبر Google. حاول مرة أخرى.</string>
 
     <!-- Home -->
     <string name="your_day">يومك</string>
@@ -97,6 +104,7 @@
     <string name="todays_meals">وجبات اليوم</string>
     <string name="no_meals_yet">لم تسجل وجبات بعد</string>
     <string name="photo_analyzing">جاري تحليل الصورة…</string>
+    <string name="error_camera_permission">التطبيق يحتاج إذن الكاميرا لتصوير الوجبة</string>
     <string name="photo_estimate_note">القيم تقديرية — عدّل الكميات قبل التأكيد</string>
     <string name="unmatched_food">غير موجود في قاعدة الأطعمة — اختر بديلاً</string>
     <string name="ingredients_title">عندي هذه المكونات</string>
@@ -110,6 +118,19 @@
     <string name="weekly_average">المعدل الأسبوعي</string>
     <string name="weight_trend">اتجاه الوزن</string>
     <string name="weekly_review">مراجعة الأسبوع</string>
+    <string name="review_logging_consistency_good">تسجيل منتظم للوجبات هذا الأسبوع 👏</string>
+    <string name="review_logging_consistency_bad">تسجيل الوجبات غير منتظم هذا الأسبوع</string>
+    <string name="review_no_logging">لم تُسجَّل أي وجبات هذا الأسبوع</string>
+    <string name="review_protein_intake_good">وصلت لهدف البروتين بشكل جيد</string>
+    <string name="review_protein_intake_bad">البروتين أقل من هدفك هذا الأسبوع</string>
+    <string name="review_weight_not_decreasing">الوزن لا ينخفض رغم عجز السعرات — قد يحتاج الهدف مراجعة</string>
+    <string name="review_weight_not_increasing">الوزن لا يزيد رغم فائض السعرات — قد يحتاج الهدف مراجعة</string>
+    <string name="review_weight_trend_on_track">اتجاه الوزن يسير كما هو مخطط 👍</string>
+    <string name="review_log_more_days">حاول تسجيل وجباتك أيامًا أكثر الأسبوع القادم</string>
+    <string name="review_start_logging">ابدأ بتسجيل وجباتك اليومية لمتابعة تقدمك</string>
+    <string name="review_increase_protein_foods">أضف مصادر بروتين أكثر لوجباتك</string>
+    <string name="review_targets_with_engine">راجع أهدافك من شاشة الحساب لتحديثها</string>
+    <string name="review_weigh_more_mornings">حاول وزن نفسك صباحًا أكثر من مرة هذا الأسبوع</string>
     <string name="generate_review">إنشاء المراجعة</string>
     <string name="went_well">ما سار جيداً</string>
     <string name="needs_attention">يحتاج انتباه</string>
@@ -136,12 +157,14 @@
     <string name="subscription_active">اشتراك فعال</string>
     <string name="subscription_expired">انتهى الاشتراك</string>
     <string name="subscription_price">4.99$ شهرياً بعد 14 يوم تجربة مجانية</string>
+    <string name="subscribe_now">اشترك الآن</string>
     <string name="notifications">التنبيهات</string>
     <string name="delete_account">حذف الحساب</string>
     <string name="delete_data">حذف بياناتي</string>
     <string name="delete_confirm">هل أنت متأكد؟ لا يمكن التراجع.</string>
     <string name="logout">تسجيل الخروج</string>
     <string name="cancel">إلغاء</string>
+    <string name="back">رجوع</string>
     <string name="confirm">تأكيد</string>
 
     <!-- Errors -->

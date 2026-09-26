@@ -127,7 +127,11 @@ fun HomeScreen(
                             val api = ApiProvider.init(context)
                             safeCall { api.whatToEat() }
                                 .onSuccess { coachTip = it.suggestion }
-                                .onFailure { coachTip = context.getString(R.string.error_ai_unavailable) }
+                                .onFailure { e ->
+                                    coachTip = if (e is com.madrabak.coach.data.repo.ApiError.SubscriptionExpired)
+                                        context.getString(R.string.error_subscription_expired)
+                                    else context.getString(R.string.error_ai_unavailable)
+                                }
                         }
                     }) { Text(stringResource(R.string.action_what_to_eat)) }
                 }

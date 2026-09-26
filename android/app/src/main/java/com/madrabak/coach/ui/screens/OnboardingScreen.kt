@@ -2,6 +2,7 @@ package com.madrabak.coach.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,12 +12,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalLayoutApi
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,21 +41,37 @@ import com.madrabak.coach.data.repo.safeCall
 import com.madrabak.coach.util.ProfileValidator
 import kotlinx.coroutines.launch
 
+/** Wraps chips naturally to the available width instead of forcing fixed groups of 3,
+ * so long labels (e.g. "المحافظة على الوزن") never overflow or crowd the row. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ChipRow(options: List<Pair<String, String>>, selected: String?, onSelect: (String) -> Unit) {
-    Column {
-        options.chunked(3).forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                row.forEach { (value, label) ->
-                    FilterChip(selected = selected == value, onClick = { onSelect(value) }, label = { Text(label) })
-                }
-            }
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        options.forEach { (value, label) ->
+            FilterChip(selected = selected == value, onClick = { onSelect(value) }, label = { Text(label) })
+        }
+    }
+}
+
+/** One visually separated group: a title followed by its own chip set, wrapped in a
+ * Card so it reads as its own block and never runs into the section above/below it. */
+@Composable
+private fun ChipSection(
+    title: String,
+    options: List<Pair<String, String>>,
+    selected: String?,
+    onSelect: (String) -> Unit,
+) {
+    Card {
+        Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            ChipRow(options, selected, onSelect)
         }
     }
 }
 
 @Composable
-fun OnboardingScreen(onDone: () -> Unit) {
+fun OnboardingScreen(onDone: () -> Unit, isEditing: Boolean = false, onBack: (() -> Unit)? = null) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -65,6 +89,26 @@ fun OnboardingScreen(onDone: () -> Unit) {
     var budget by remember { mutableStateOf("medium") }
     var saving by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf(false) }
+
+    // When editing an existing profile, prefill with the saved values instead of blanks.
+    if (isEditing) {
+        LaunchedEffect(Unit) {
+            safeCall { ApiProvider.init(context).getProfile() }.onSuccess { p ->
+                age = p.age?.toString() ?: ""
+                sex = p.sex
+                height = p.heightCm?.toString() ?: ""
+                weight = p.weightKg?.toString() ?: ""
+                sport = p.sport
+                goal = p.primaryGoal
+                activity = p.activityLevel
+                trainingDays = p.trainingDaysPerWeek?.toString() ?: trainingDays
+                trainingMin = p.trainingDurationMin?.toString() ?: trainingMin
+                intensity = p.trainingIntensity ?: intensity
+                matches = p.matchesPerWeek?.toString() ?: matches
+                budget = p.budgetTier ?: budget
+            }
+        }
+    }
 
     val sports = listOf(
         "bodybuilding" to stringResource(R.string.sport_bodybuilding),
@@ -99,62 +143,76 @@ fun OnboardingScreen(onDone: () -> Unit) {
 
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+        verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
-        Text(stringResource(R.string.onboarding_title), style = MaterialTheme.typography.headlineMedium)
+        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+            if (onBack != null) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
+                }
+                Spacer(Modifier.width(4.dp))
+            }
+            Text(
+                stringResource(if (isEditing) R.string.edit_profile else R.string.onboarding_title),
+                style = MaterialTheme.typography.headlineMedium,
+            )
+        }
 
-        Row {
-            OutlinedTextField(value = age, onValueChange = { age = it.filter(Char::isDigit) },
-                label = { Text(stringResource(R.string.age)) }, modifier = Modifier.weight(1f))
-            Spacer(Modifier.width(12.dp))
-            Column(Modifier.weight(2f)) {
+        Card {
+            Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row {
+                    OutlinedTextField(value = age, onValueChange = { age = it.filter(Char::isDigit) },
+                        label = { Text(stringResource(R.string.age)) }, modifier = Modifier.weight(1f))
+                    Spacer(Modifier.width(12.dp))
+                    OutlinedTextField(value = height, onValueChange = { height = it },
+                        label = { Text(stringResource(R.string.height_cm)) }, modifier = Modifier.weight(1f))
+                    Spacer(Modifier.width(12.dp))
+                    OutlinedTextField(value = weight, onValueChange = { weight = it },
+                        label = { Text(stringResource(R.string.weight_kg)) }, modifier = Modifier.weight(1f))
+                }
                 Text(stringResource(R.string.sex), style = MaterialTheme.typography.labelLarge)
                 ChipRow(listOf("male" to stringResource(R.string.male), "female" to stringResource(R.string.female)), sex) { sex = it }
             }
         }
-        Row {
-            OutlinedTextField(value = height, onValueChange = { height = it },
-                label = { Text(stringResource(R.string.height_cm)) }, modifier = Modifier.weight(1f))
-            Spacer(Modifier.width(12.dp))
-            OutlinedTextField(value = weight, onValueChange = { weight = it },
-                label = { Text(stringResource(R.string.weight_kg)) }, modifier = Modifier.weight(1f))
+
+        ChipSection(stringResource(R.string.sport), sports, sport) { sport = it }
+
+        ChipSection(stringResource(R.string.goal), goals, goal) { goal = it }
+
+        ChipSection(stringResource(R.string.activity_level), activities, activity) { activity = it }
+
+        Card {
+            Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row {
+                    OutlinedTextField(value = trainingDays, onValueChange = { trainingDays = it.filter(Char::isDigit) },
+                        label = { Text(stringResource(R.string.training_days)) }, modifier = Modifier.weight(1f))
+                    Spacer(Modifier.width(12.dp))
+                    OutlinedTextField(value = trainingMin, onValueChange = { trainingMin = it.filter(Char::isDigit) },
+                        label = { Text(stringResource(R.string.training_duration)) }, modifier = Modifier.weight(1f))
+                }
+                Text(stringResource(R.string.training_intensity), style = MaterialTheme.typography.labelLarge)
+                ChipRow(listOf(
+                    "low" to stringResource(R.string.intensity_low),
+                    "moderate" to stringResource(R.string.intensity_moderate),
+                    "high" to stringResource(R.string.intensity_high),
+                ), intensity) { intensity = it }
+
+                if (sport == "football") {
+                    OutlinedTextField(value = matches, onValueChange = { matches = it.filter(Char::isDigit) },
+                        label = { Text(stringResource(R.string.matches_per_week)) }, modifier = Modifier.fillMaxWidth())
+                }
+            }
         }
 
-        Text(stringResource(R.string.sport), style = MaterialTheme.typography.titleLarge)
-        ChipRow(sports, sport) { sport = it }
-
-        Text(stringResource(R.string.goal), style = MaterialTheme.typography.titleLarge)
-        ChipRow(goals, goal) { goal = it }
-
-        Text(stringResource(R.string.activity_level), style = MaterialTheme.typography.titleLarge)
-        ChipRow(activities, activity) { activity = it }
-
-        Row {
-            OutlinedTextField(value = trainingDays, onValueChange = { trainingDays = it.filter(Char::isDigit) },
-                label = { Text(stringResource(R.string.training_days)) }, modifier = Modifier.weight(1f))
-            Spacer(Modifier.width(12.dp))
-            OutlinedTextField(value = trainingMin, onValueChange = { trainingMin = it.filter(Char::isDigit) },
-                label = { Text(stringResource(R.string.training_duration)) }, modifier = Modifier.weight(1f))
-        }
-
-        Text(stringResource(R.string.training_intensity), style = MaterialTheme.typography.labelLarge)
-        ChipRow(listOf(
-            "low" to stringResource(R.string.intensity_low),
-            "moderate" to stringResource(R.string.intensity_moderate),
-            "high" to stringResource(R.string.intensity_high),
-        ), intensity) { intensity = it }
-
-        if (sport == "football") {
-            OutlinedTextField(value = matches, onValueChange = { matches = it.filter(Char::isDigit) },
-                label = { Text(stringResource(R.string.matches_per_week)) }, modifier = Modifier.fillMaxWidth())
-        }
-
-        Text(stringResource(R.string.budget), style = MaterialTheme.typography.labelLarge)
-        ChipRow(listOf(
-            "low" to stringResource(R.string.budget_low),
-            "medium" to stringResource(R.string.budget_medium),
-            "high" to stringResource(R.string.budget_high),
-        ), budget) { budget = it }
+        ChipSection(
+            stringResource(R.string.budget),
+            listOf(
+                "low" to stringResource(R.string.budget_low),
+                "medium" to stringResource(R.string.budget_medium),
+                "high" to stringResource(R.string.budget_high),
+            ),
+            budget,
+        ) { budget = it }
 
         if (error) Text(stringResource(R.string.error_generic), color = MaterialTheme.colorScheme.error)
 

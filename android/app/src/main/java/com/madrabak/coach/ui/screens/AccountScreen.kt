@@ -38,6 +38,7 @@ import com.madrabak.coach.data.api.ProfileUpdate
 import com.madrabak.coach.data.api.SubscriptionStatus
 import com.madrabak.coach.data.repo.ApiProvider
 import com.madrabak.coach.data.repo.safeCall
+import com.madrabak.coach.util.BillingManager
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,6 +48,19 @@ fun AccountScreen(onLoggedOut: () -> Unit, onEditProfile: () -> Unit) {
     var profile by remember { mutableStateOf<Profile?>(null) }
     var subscription by remember { mutableStateOf<SubscriptionStatus?>(null) }
     var confirmDialog by remember { mutableStateOf<String?>(null) } // "account" | "data"
+
+    val billing = remember {
+        BillingManager(context).apply {
+            onVerified = { success ->
+                if (success) {
+                    scope.launch {
+                        safeCall { ApiProvider.init(context).subscription() }.onSuccess { subscription = it }
+                    }
+                }
+            }
+        }
+    }
+    LaunchedEffect(Unit) { billing.connect() }
 
     LaunchedEffect(Unit) {
         val api = ApiProvider.init(context)
@@ -74,6 +88,12 @@ fun AccountScreen(onLoggedOut: () -> Unit, onEditProfile: () -> Unit) {
                         color = if (sub.hasAccess) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                     )
                     Text(stringResource(R.string.subscription_price), style = MaterialTheme.typography.bodyMedium)
+                    if (!sub.hasAccess) {
+                        Button(
+                            onClick = { (context as? android.app.Activity)?.let { billing.launchPurchase(it) } },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) { Text(stringResource(R.string.subscribe_now)) }
+                    }
                 }
             }
         }

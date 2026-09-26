@@ -25,6 +25,7 @@ object Notifications {
             )
         )
         scheduleMorningWeightReminder(context)
+        scheduleWeeklyReviewReminder(context)
     }
 
     fun scheduleMorningWeightReminder(context: Context, hour: Int = 7) {
@@ -40,6 +41,25 @@ object Notifications {
         }
         alarm.setInexactRepeating(
             AlarmManager.RTC_WAKEUP, cal.timeInMillis, AlarmManager.INTERVAL_DAY, pending,
+        )
+    }
+
+    /** Monday morning nudge to check the weekly review (docs/DECISIONS.md #13). */
+    fun scheduleWeeklyReviewReminder(context: Context, hour: Int = 9) {
+        val alarm = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, ReminderReceiver::class.java).putExtra("type", "weekly_review")
+        val pending = PendingIntent.getBroadcast(
+            context, 1002, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val cal = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0)
+            while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY || before(Calendar.getInstance())) {
+                add(Calendar.DAY_OF_YEAR, 1)
+            }
+        }
+        alarm.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP, cal.timeInMillis, AlarmManager.INTERVAL_DAY * 7, pending,
         )
     }
 }

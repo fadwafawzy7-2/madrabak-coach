@@ -1,3 +1,5 @@
+import java.util.Base64
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -24,11 +26,34 @@ android {
         vectorDrawables { useSupportLibrary = true }
     }
 
+    // Release signing: reads the keystore from a GitHub Actions secret so every
+    // build is signed with the SAME certificate (required for Google Sign-In's
+    // SHA-1 fingerprint to keep matching). Falls back to the debug key when the
+    // secret isn't set (e.g. a local `assembleRelease`), so local builds never break.
+    val releaseKeystoreBase64 = System.getenv("ANDROID_KEYSTORE_BASE64")
+    signingConfigs {
+        if (!releaseKeystoreBase64.isNullOrBlank()) {
+            create("release") {
+                val decodedKeystore = File(layout.buildDirectory.get().asFile, "release.keystore")
+                decodedKeystore.parentFile.mkdirs()
+                decodedKeystore.writeBytes(Base64.getDecoder().decode(releaseKeystoreBase64))
+                storeFile = decodedKeystore
+                storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
             buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = if (!releaseKeystoreBase64.isNullOrBlank())
+                signingConfigs.getByName("release")
+            else
+                signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -68,6 +93,11 @@ dependencies {
 
     // Google Play Billing (subscriptions)
     implementation("com.android.billingclient:billing-ktx:7.0.0")
+
+    // Google Sign-In (Credential Manager — shows the device's Google accounts)
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
     // Unit tests
     testImplementation("junit:junit:4.13.2")

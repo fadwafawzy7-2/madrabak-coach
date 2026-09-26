@@ -73,6 +73,7 @@ fun CoachScreen() {
                     val msg = when (e) {
                         is ApiError.LimitReached -> context.getString(R.string.error_limit_reached)
                         is ApiError.NoInternet -> context.getString(R.string.error_no_internet)
+                        is ApiError.SubscriptionExpired -> context.getString(R.string.error_subscription_expired)
                         else -> context.getString(R.string.error_ai_unavailable)
                     }
                     messages.add(ChatMessage("assistant", msg))

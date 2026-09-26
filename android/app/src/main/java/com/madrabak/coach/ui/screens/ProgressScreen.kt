@@ -160,16 +160,16 @@ fun ProgressScreen() {
                     if (r.wentWell.isNotEmpty()) {
                         Text(stringResource(R.string.went_well), style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary)
-                        r.wentWell.forEach { Text("• ${reviewLabel(it)}") }
+                        r.wentWell.forEach { Text("• ${reviewLabel(it, positive = true)}") }
                     }
                     if (r.needsAttention.isNotEmpty()) {
                         Text(stringResource(R.string.needs_attention), style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.error)
-                        r.needsAttention.forEach { Text("• ${reviewLabel(it)}") }
+                        r.needsAttention.forEach { Text("• ${reviewLabel(it, positive = false)}") }
                     }
                     if (r.suggestions.isNotEmpty()) {
                         Text(stringResource(R.string.suggestions), style = MaterialTheme.typography.labelLarge)
-                        r.suggestions.forEach { Text("• ${reviewLabel(it)}") }
+                        r.suggestions.forEach { Text("• ${reviewLabel(it, positive = false)}") }
                     }
                 }
             }
@@ -178,16 +178,23 @@ fun ProgressScreen() {
     }
 }
 
-/** Maps backend review codes to localized-ish text (simple MVP mapping). */
+/** Maps backend review codes to localized text. `positive` disambiguates the two
+ * codes ("logging_consistency", "protein_intake") that appear in both the
+ * went-well and needs-attention lists with opposite meanings. */
 @Composable
-private fun reviewLabel(code: String): String = when (code) {
-    "logging_consistency" -> stringResource(R.string.todays_meals)
-    "protein_intake" -> stringResource(R.string.protein)
-    "weight_trend_on_track" -> stringResource(R.string.weight_trend)
-    "weight_not_decreasing", "weight_not_increasing" -> stringResource(R.string.weight_trend)
-    "increase_protein_foods" -> stringResource(R.string.protein) + " ↑"
-    "weigh_more_mornings" -> stringResource(R.string.notif_morning_weight)
-    "log_more_days", "start_logging" -> stringResource(R.string.log_meal)
-    "review_targets_with_engine" -> stringResource(R.string.calories_target)
+private fun reviewLabel(code: String, positive: Boolean): String = when (code) {
+    "logging_consistency" -> if (positive) stringResource(R.string.review_logging_consistency_good)
+        else stringResource(R.string.review_logging_consistency_bad)
+    "no_logging" -> stringResource(R.string.review_no_logging)
+    "protein_intake" -> if (positive) stringResource(R.string.review_protein_intake_good)
+        else stringResource(R.string.review_protein_intake_bad)
+    "weight_trend_on_track" -> stringResource(R.string.review_weight_trend_on_track)
+    "weight_not_decreasing" -> stringResource(R.string.review_weight_not_decreasing)
+    "weight_not_increasing" -> stringResource(R.string.review_weight_not_increasing)
+    "increase_protein_foods" -> stringResource(R.string.review_increase_protein_foods)
+    "weigh_more_mornings" -> stringResource(R.string.review_weigh_more_mornings)
+    "log_more_days" -> stringResource(R.string.review_log_more_days)
+    "start_logging" -> stringResource(R.string.review_start_logging)
+    "review_targets_with_engine" -> stringResource(R.string.review_targets_with_engine)
     else -> code
 }

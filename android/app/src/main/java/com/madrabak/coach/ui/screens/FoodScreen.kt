@@ -1,8 +1,11 @@
 package com.madrabak.coach.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,6 +52,7 @@ import com.madrabak.coach.data.api.MealItemIn
 import com.madrabak.coach.data.repo.ApiProvider
 import com.madrabak.coach.data.repo.safeCall
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -87,7 +91,8 @@ fun FoodScreen() {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 85, stream)
                 val body = stream.toByteArray().toRequestBody("image/jpeg".toMediaType())
                 val part = MultipartBody.Part.createFormData("image", "meal.jpg", body)
-                val lang = "ar".toRequestBody("text/plain".toMediaType())
+                val userLang = ApiProvider.sessionStore(context).language.first() ?: "ar"
+                val lang = userLang.toRequestBody("text/plain".toMediaType())
                 safeCall { ApiProvider.init(context).analyzePhoto(part, lang) }
                     .onSuccess { analysis ->
                         source = "photo"
@@ -97,10 +102,21 @@ fun FoodScreen() {
                         }
                         message = context.getString(R.string.photo_estimate_note)
                     }
-                    .onFailure { message = context.getString(R.string.error_ai_unavailable) }
+                    .onFailure { e ->
+                        message = if (e is com.madrabak.coach.data.repo.ApiError.SubscriptionExpired)
+                            context.getString(R.string.error_subscription_expired)
+                        else context.getString(R.string.error_ai_unavailable)
+                    }
                 analyzing = false
             }
         }
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) cameraLauncher.launch(null)
+        else message = context.getString(R.string.error_camera_permission)
     }
 
     LazyColumn(
@@ -123,7 +139,15 @@ fun FoodScreen() {
             }
         }
         item {
-            Button(onClick = { cameraLauncher.launch(null) }, modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+                        PackageManager.PERMISSION_GRANTED
+                    if (granted) cameraLauncher.launch(null)
+                    else cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 Icon(Icons.Filled.PhotoCamera, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.action_photo_meal))

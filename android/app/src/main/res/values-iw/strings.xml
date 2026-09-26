@@ -16,6 +16,9 @@
     <string name="auth_error">ההתחברות נכשלה. בדוק את הפרטים.</string>
     <string name="no_account_register">אין חשבון? צור אחד</string>
     <string name="have_account_login">יש חשבון? התחבר</string>
+    <string name="continue_with_google">המשך עם Google</string>
+    <string name="or_divider">או</string>
+    <string name="google_signin_error">ההתחברות עם Google נכשלה. נסה שוב.</string>
 
     <string name="your_day">היום שלך</string>
     <string name="coach_says">המאמן שלך אומר…</string>
@@ -92,6 +95,7 @@
     <string name="todays_meals">ארוחות היום</string>
     <string name="no_meals_yet">עוד לא נרשמו ארוחות</string>
     <string name="photo_analyzing">מנתח תמונה…</string>
+    <string name="error_camera_permission">נדרשת הרשאת מצלמה כדי לצלם ארוחה</string>
     <string name="photo_estimate_note">הערכים משוערים — התאם כמויות לפני אישור</string>
     <string name="unmatched_food">לא במאגר המזון — בחר חלופה</string>
     <string name="ingredients_title">יש לי את המרכיבים האלה</string>
@@ -104,6 +108,19 @@
     <string name="weekly_average">ממוצע שבועי</string>
     <string name="weight_trend">מגמת משקל</string>
     <string name="weekly_review">סקירה שבועית</string>
+    <string name="review_logging_consistency_good">תיעוד ארוחות עקבי השבוע 👏</string>
+    <string name="review_logging_consistency_bad">תיעוד הארוחות לא היה עקבי השבוע</string>
+    <string name="review_no_logging">לא תועדו ארוחות השבוע</string>
+    <string name="review_protein_intake_good">הגעת ליעד החלבון בהצלחה</string>
+    <string name="review_protein_intake_bad">צריכת החלבון הייתה מתחת ליעד השבוע</string>
+    <string name="review_weight_not_decreasing">המשקל לא יורד למרות הגירעון — ייתכן שהיעדים דורשים בדיקה</string>
+    <string name="review_weight_not_increasing">המשקל לא עולה למרות העודף — ייתכן שהיעדים דורשים בדיקה</string>
+    <string name="review_weight_trend_on_track">מגמת המשקל מתקדמת כמתוכנן 👍</string>
+    <string name="review_log_more_days">נסה לתעד ארוחות בימים נוספים בשבוע הבא</string>
+    <string name="review_start_logging">התחל לתעד את הארוחות היומיות כדי לעקוב אחר ההתקדמות</string>
+    <string name="review_increase_protein_foods">הוסף מקורות חלבון נוספים לארוחות שלך</string>
+    <string name="review_targets_with_engine">בדוק את היעדים שלך במסך החשבון</string>
+    <string name="review_weigh_more_mornings">נסה לשקול את עצמך ביותר בקרים השבוע</string>
     <string name="generate_review">צור סקירה</string>
     <string name="went_well">מה הלך טוב</string>
     <string name="needs_attention">דורש תשומת לב</string>
@@ -128,12 +145,14 @@
     <string name="subscription_active">מנוי פעיל</string>
     <string name="subscription_expired">המנוי פג</string>
     <string name="subscription_price">4.99$ לחודש אחרי 14 ימי ניסיון חינם</string>
+    <string name="subscribe_now">הירשם עכשיו</string>
     <string name="notifications">התראות</string>
     <string name="delete_account">מחיקת חשבון</string>
     <string name="delete_data">מחיקת הנתונים שלי</string>
     <string name="delete_confirm">בטוח? אי אפשר לבטל.</string>
     <string name="logout">התנתקות</string>
     <string name="cancel">ביטול</string>
+    <string name="back">חזרה</string>
     <string name="confirm">אישור</string>
 
     <string name="error_no_internet">אין חיבור לאינטרנט</string>

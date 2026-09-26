@@ -54,15 +54,12 @@ fun AppRoot() {
             startState = if (needsOnboarding) "onboarding" else "main"
         })
         "onboarding" -> OnboardingScreen(onDone = { startState = "main" })
-        "main" -> MainScaffold(
-            onLoggedOut = { startState = "auth" },
-            onNeedsOnboarding = { startState = "onboarding" },
-        )
+        "main" -> MainScaffold(onLoggedOut = { startState = "auth" })
     }
 }
 
 @Composable
-private fun MainScaffold(onLoggedOut: () -> Unit, onNeedsOnboarding: () -> Unit) {
+private fun MainScaffold(onLoggedOut: () -> Unit) {
     val navController = rememberNavController()
     val tabs = listOf(
         Tab("home", R.string.nav_home, Icons.Filled.Home),
@@ -110,7 +107,14 @@ private fun MainScaffold(onLoggedOut: () -> Unit, onNeedsOnboarding: () -> Unit)
             composable("progress") { ProgressScreen() }
             composable("coach") { CoachScreen() }
             composable("account") {
-                AccountScreen(onLoggedOut = onLoggedOut, onEditProfile = onNeedsOnboarding)
+                AccountScreen(onLoggedOut = onLoggedOut, onEditProfile = { navController.navigate("edit_profile") })
+            }
+            composable("edit_profile") {
+                OnboardingScreen(
+                    isEditing = true,
+                    onDone = { navController.popBackStack() },
+                    onBack = { navController.popBackStack() },
+                )
             }
         }
     }

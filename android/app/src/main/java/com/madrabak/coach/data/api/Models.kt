@@ -10,6 +10,9 @@ data class Credentials(val email: String, val password: String)
 data class AuthResponse(@SerialName("user_id") val userId: String, val token: String)
 
 @Serializable
+data class GoogleAuthIn(@SerialName("id_token") val idToken: String)
+
+@Serializable
 data class Profile(
     @SerialName("user_id") val userId: String? = null,
     @SerialName("display_name") val displayName: String? = null,

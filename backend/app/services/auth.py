@@ -15,6 +15,8 @@ import bcrypt
 import jwt
 from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token as google_id_token
 from sqlalchemy import text
 
 from ..db import db_conn, new_id
@@ -53,6 +55,17 @@ def decode_token(token: str) -> str:
     return payload["sub"]
 
 
+def _start_trial(conn, user_id: str) -> None:
+    s = get_settings()
+    conn.execute(
+        text(
+            "INSERT INTO subscriptions (user_id, status, trial_started_at, trial_ends_at) "
+            "VALUES (:i, 'trial', now(), now() + make_interval(days => :d))"
+        ),
+        {"i": user_id, "d": s.trial_days},
+    )
+
+
 def register_user(email: str, password: str) -> dict:
     email = email.strip().lower()
     if len(password) < 8:
@@ -69,15 +82,7 @@ def register_user(email: str, password: str) -> dict:
             {"i": uid, "e": email, "p": hash_password(password)},
         )
         conn.execute(text("INSERT INTO profiles (user_id) VALUES (:i)"), {"i": uid})
-        # start 14-day trial immediately
-        s = get_settings()
-        conn.execute(
-            text(
-                "INSERT INTO subscriptions (user_id, status, trial_started_at, trial_ends_at) "
-                "VALUES (:i, 'trial', now(), now() + make_interval(days => :d))"
-            ),
-            {"i": uid, "d": s.trial_days},
-        )
+        _start_trial(conn, uid)  # start 14-day trial immediately
     return {"user_id": uid, "token": create_token(uid)}
 
 
@@ -91,6 +96,72 @@ def login_user(email: str, password: str) -> dict:
     if not row or not row[1] or not verify_password(password, row[1]):
         raise HTTPException(status_code=401, detail="invalid_credentials")
     return {"user_id": str(row[0]), "token": create_token(str(row[0]))}
+
+
+_google_request = google_requests.Request()
+
+
+def login_or_register_google(id_token_str: str) -> dict:
+    """Verify a Google ID token (from Android Credential Manager or web) and
+    sign the user in, creating an account on first sign-in or linking to an
+    existing local-password account that shares the same verified email.
+    """
+    s = get_settings()
+    if not s.google_web_client_id:
+        raise HTTPException(status_code=503, detail="google_signin_not_configured")
+    try:
+        payload = google_id_token.verify_oauth2_token(
+            id_token_str, _google_request, s.google_web_client_id
+        )
+    except ValueError:
+        raise HTTPException(status_code=401, detail="invalid_google_token")
+
+    if payload.get("iss") not in ("accounts.google.com", "https://accounts.google.com"):
+        raise HTTPException(status_code=401, detail="invalid_google_token")
+    if not payload.get("email_verified", False):
+        raise HTTPException(status_code=401, detail="google_email_unverified")
+
+    google_sub = payload["sub"]
+    email = payload["email"].strip().lower()
+    is_new_user = False
+
+    with db_conn() as conn:
+        row = conn.execute(
+            text(
+                "SELECT id FROM users WHERE auth_provider = 'google' AND external_auth_id = :g"
+            ),
+            {"g": google_sub},
+        ).fetchone()
+        if row:
+            uid = str(row[0])
+        else:
+            existing = conn.execute(
+                text("SELECT id FROM users WHERE email = :e"), {"e": email}
+            ).fetchone()
+            if existing:
+                # Link the existing local account to this Google identity.
+                uid = str(existing[0])
+                conn.execute(
+                    text(
+                        "UPDATE users SET auth_provider = 'google', external_auth_id = :g "
+                        "WHERE id = :i"
+                    ),
+                    {"g": google_sub, "i": uid},
+                )
+            else:
+                is_new_user = True
+                uid = new_id()
+                conn.execute(
+                    text(
+                        "INSERT INTO users (id, email, auth_provider, external_auth_id) "
+                        "VALUES (:i, :e, 'google', :g)"
+                    ),
+                    {"i": uid, "e": email, "g": google_sub},
+                )
+                conn.execute(text("INSERT INTO profiles (user_id) VALUES (:i)"), {"i": uid})
+                _start_trial(conn, uid)
+
+    return {"user_id": uid, "token": create_token(uid), "is_new_user": is_new_user}
 
 
 async def get_current_user_id(

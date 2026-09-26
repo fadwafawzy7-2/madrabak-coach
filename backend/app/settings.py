@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     # AI providers (empty => providers run in stub mode)
     groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
     gemini_api_key: str = ""
     gemini_vision_model: str = "gemini-2.0-flash"
 
@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     supabase_url: str = ""
     supabase_anon_key: str = ""
     supabase_service_role_key: str = ""
+
+    # Google Sign-In (Web Client ID — used as the OAuth audience for both the
+    # Android app's Credential Manager flow and any web client). Not a secret.
+    google_web_client_id: str = ""
 
     # Google Play
     google_play_package_name: str = "com.madrabak.coach"

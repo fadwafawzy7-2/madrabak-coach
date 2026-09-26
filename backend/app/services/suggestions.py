@@ -6,6 +6,7 @@ them into friendly suggestions. Ingredient nutrition comes from the Food Databas
 from __future__ import annotations
 
 import datetime as dt
+import logging
 
 from fastapi import HTTPException
 
@@ -17,6 +18,8 @@ from .foods import match_food_by_name
 from .meals import day_totals, list_meals_for_day
 from .nutrition import get_current_target, get_profile
 from .rules import get_safety_rules
+
+logger = logging.getLogger(__name__)
 
 
 def compute_remaining(user_id: str, today: dt.date | None = None) -> dict:
@@ -67,6 +70,7 @@ async def _ai_suggest(user_id: str, endpoint: str, instruction: str,
         result = await provider.chat(system, [{"role": "user", "content": instruction}],
                                      max_tokens=limits["max_output_tokens"])
     except Exception:
+        logger.exception("suggestions.%s: AI provider call failed", endpoint)
         raise HTTPException(status_code=503, detail={"code": "ai_unavailable"})
     log_ai_usage(user_id, result.provider, result.model, endpoint,
                  result.input_tokens, result.output_tokens, result.estimated_cost_usd)

@@ -14,11 +14,12 @@ from __future__ import annotations
 import abc
 import datetime as dt
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from sqlalchemy import text
 
 from ..db import db_conn
 from ..settings import get_settings
+from .auth import get_current_user_id
 
 
 class SubscriptionProvider(abc.ABC):
@@ -144,3 +145,14 @@ def cancel_subscription(user_id: str) -> dict:
         conn.execute(text("UPDATE subscriptions SET status = 'cancelled', updated_at = now() WHERE user_id = :u"),
                      {"u": user_id})
     return get_subscription_status(user_id)
+
+
+async def require_active_access(user_id: str = Depends(get_current_user_id)) -> str:
+    """Dependency for paid features (AI chat/suggestions/photo analysis): blocks
+    access once the trial has ended and no active subscription exists. Read-only
+    / deterministic endpoints (dashboard, meal logging, coach/remaining) stay
+    free of this check so a lapsed user can still see their own data."""
+    status = get_subscription_status(user_id)
+    if not status["has_access"]:
+        raise HTTPException(status_code=402, detail={"code": "subscription_expired"})
+    return user_id
