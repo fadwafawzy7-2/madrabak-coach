@@ -130,6 +130,20 @@ fun OnboardingScreen(onDone: () -> Unit, isEditing: Boolean = false, onBack: (()
         "running_performance" to stringResource(R.string.goal_running_performance),
         "calisthenics_performance" to stringResource(R.string.goal_calisthenics_performance),
     )
+    // Only the goals that actually make sense for each sport — a bodybuilder
+    // isn't offered "running performance", a runner isn't offered "increase
+    // strength" as a primary goal, etc. Kept in a map so the list is easy to
+    // tune later without touching the filtering logic below.
+    val goalsBySport = mapOf(
+        "bodybuilding" to listOf("lose_fat", "gain_muscle", "recomposition", "gain_weight", "maintain"),
+        "strength" to listOf("increase_strength", "gain_muscle", "gain_weight", "recomposition", "maintain"),
+        "calisthenics" to listOf("calisthenics_performance", "lose_fat", "recomposition", "gain_muscle", "maintain"),
+        "running" to listOf("running_performance", "lose_fat", "lose_weight", "maintain"),
+        "football" to listOf("athletic_performance", "lose_fat", "gain_muscle", "increase_strength", "maintain"),
+        "non_athlete" to listOf("lose_weight", "lose_fat", "maintain", "gain_weight", "recomposition"),
+    )
+    val allowedGoalKeys = sport?.let { goalsBySport[it] }
+    val filteredGoals = if (allowedGoalKeys != null) goals.filter { it.first in allowedGoalKeys } else goals
     val activities = listOf(
         "sedentary" to stringResource(R.string.activity_sedentary),
         "light" to stringResource(R.string.activity_light),
@@ -175,9 +189,12 @@ fun OnboardingScreen(onDone: () -> Unit, isEditing: Boolean = false, onBack: (()
             }
         }
 
-        ChipSection(stringResource(R.string.sport), sports, sport) { sport = it }
+        ChipSection(stringResource(R.string.sport), sports, sport) {
+            sport = it
+            if (goal != null && goal !in (goalsBySport[it] ?: emptyList())) goal = null
+        }
 
-        ChipSection(stringResource(R.string.goal), goals, goal) { goal = it }
+        ChipSection(stringResource(R.string.goal), filteredGoals, goal) { goal = it }
 
         ChipSection(stringResource(R.string.activity_level), activities, activity) { activity = it }
 
